@@ -1,0 +1,30 @@
+[
+  {
+    "id": "c0a0d487-b491-4d9c-a166-64e2bcc258fb",
+    "symbol": "AAPL",
+    "quantity": 10.0,
+    "purchase_price": 150.0,
+    "purchase_date": null
+  },
+  {
+    "id": "eef2f3b9-1662-41d8-9062-04b1549cd794",
+    "symbol": "MSFT",
+    "quantity": 5.0,
+    "purchase_price": 300.0,
+    "purchase_date": "2026-01-15"
+  },
+  {
+    "id": "4a347727-05d3-4687-b4a1-57fa665868c1",
+    "symbol": "TSLA",
+    "quantity": 8.0,
+    "purchase_price": 250.0,
+    "purchase_date": "2026-02-01"
+  },
+  {
+    "id": "7f4ef8ce-4043-4436-a9a6-663e091c0053",
+    "symbol": "AAPL",
+    "quantity": 10.0,
+    "purchase_price": 748.0,
+    "purchase_date": null
+  }
+]

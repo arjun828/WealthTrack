@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WealthTrack — Portfolio Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>WealthTrack</h1>
+    <p class="subtitle">Your portfolio, tracked live.</p>
+  </header>
+
+  <main>
+    <!-- Portfolio summary cards -->
+    <section class="summary-cards" id="summary-cards" aria-label="Portfolio summary">
+      <div class="card">
+        <span class="card-label">Total Invested</span>
+        <span class="card-value" id="summary-invested">—</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Current Value</span>
+        <span class="card-value" id="summary-current">—</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Total P&amp;L</span>
+        <span class="card-value" id="summary-pnl">—</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Total Return</span>
+        <span class="card-value" id="summary-return">—</span>
+      </div>
+    </section>
+
+    <!-- Add holding form -->
+    <section class="panel" aria-label="Add a holding">
+      <h2>Add Holding</h2>
+      <form id="add-holding-form" class="add-form" novalidate>
+        <div class="form-field">
+          <label for="input-symbol">Symbol</label>
+          <input type="text" id="input-symbol" name="symbol" placeholder="AAPL" required autocomplete="off" />
+        </div>
+        <div class="form-field">
+          <label for="input-quantity">Quantity</label>
+          <input type="number" id="input-quantity" name="quantity" placeholder="10" step="any" min="0" required />
+        </div>
+        <div class="form-field">
+          <label for="input-purchase-price">Purchase Price</label>
+          <input type="number" id="input-purchase-price" name="purchase_price" placeholder="150.00" step="any" min="0" required />
+        </div>
+        <div class="form-field">
+          <label for="input-purchase-date">Purchase Date</label>
+          <input type="date" id="input-purchase-date" name="purchase_date" />
+        </div>
+        <div class="form-field form-submit">
+          <button type="submit">Add Holding</button>
+        </div>
+      </form>
+      <p id="form-error" class="form-error" role="alert" hidden></p>
+    </section>
+
+    <!-- Charts -->
+    <section class="charts-grid" aria-label="Portfolio charts">
+      <div class="panel chart-panel">
+        <h2>Allocation by Holding</h2>
+        <div class="chart-wrap">
+          <canvas id="allocation-chart"></canvas>
+        </div>
+        <p class="chart-empty" id="allocation-empty" hidden>No holdings yet — add one above to see allocation.</p>
+      </div>
+      <div class="panel chart-panel">
+        <h2>Profit / Loss by Holding</h2>
+        <div class="chart-wrap">
+          <canvas id="pnl-chart"></canvas>
+        </div>
+        <p class="chart-empty" id="pnl-empty" hidden>No holdings yet — add one above to see P&amp;L.</p>
+      </div>
+    </section>
+
+    <!-- Holdings table -->
+    <section class="panel" aria-label="Holdings table">
+      <div class="panel-header-row">
+        <h2>Holdings</h2>
+        <span class="refresh-note" id="refresh-note">—</span>
+      </div>
+      <div class="table-wrap">
+        <table id="holdings-table">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Quantity</th>
+              <th>Purchase Price</th>
+              <th>Current Price</th>
+              <th>Invested</th>
+              <th>Current Value</th>
+              <th>P&amp;L</th>
+              <th>Return %</th>
+              <th>Last Updated</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="holdings-tbody">
+            <!-- rows injected by app.js -->
+          </tbody>
+        </table>
+      </div>
+      <p class="table-empty" id="holdings-empty" hidden>No holdings yet. Add your first one above.</p>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Prices via Yahoo Finance. Auto-refreshes every 45 seconds.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
