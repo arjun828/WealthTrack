@@ -22,17 +22,36 @@ Owned by Agent 4. See TASKS.md for the interface contract.
 from __future__ import annotations
 
 import json
+import sys
 import uuid
 from pathlib import Path
 
-# project_root/portfolio_data.json — this file lives at project_root/backend/storage.py
-DATA_FILE = Path(__file__).resolve().parent.parent / "portfolio_data.json"
+if getattr(sys, "frozen", False):
+    # Packaged app (PyInstaller): the bundle itself is read-only (and, on
+    # Mac, may be moved/re-verified by Gatekeeper), so persist data in a
+    # stable per-user location instead of next to the executable.
+    DATA_FILE = Path.home() / "Library" / "Application Support" / "WealthTrack" / "portfolio_data.json"
+    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
+else:
+    # project_root/portfolio_data.json — this file lives at project_root/backend/storage.py
+    DATA_FILE = Path(__file__).resolve().parent.parent / "portfolio_data.json"
 
 
 def _ensure_file() -> None:
-    """Create the data file with an empty list if it doesn't exist yet."""
-    if not DATA_FILE.exists():
-        DATA_FILE.write_text("[]", encoding="utf-8")
+    """Create the data file if it doesn't exist yet.
+
+    In the packaged app, seed it from the sample data bundled alongside the
+    executable (so a first launch shows real example holdings) instead of
+    starting empty; falls back to an empty list if no sample is bundled.
+    """
+    if DATA_FILE.exists():
+        return
+    seed = "[]"
+    if getattr(sys, "frozen", False):
+        bundled_seed = Path(getattr(sys, "_MEIPASS", "")) / "portfolio_data.json"
+        if bundled_seed.exists():
+            seed = bundled_seed.read_text(encoding="utf-8")
+    DATA_FILE.write_text(seed, encoding="utf-8")
 
 
 def _read_all() -> list:

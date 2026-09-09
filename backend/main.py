@@ -28,8 +28,13 @@ from backend.models import (
     PortfolioSummary,
 )
 
+import sys
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-FRONTEND_DIR = PROJECT_ROOT / "frontend"
+# When bundled by PyInstaller, bundled data files (frontend/) are unpacked
+# read-only under sys._MEIPASS instead of living next to this source file.
+BUNDLE_ROOT = Path(getattr(sys, "_MEIPASS", PROJECT_ROOT))
+FRONTEND_DIR = BUNDLE_ROOT / "frontend"
 
 app = FastAPI(title="WealthTrack API")
 
